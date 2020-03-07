@@ -21,14 +21,12 @@ class Driver {
 
   //returns all of the passengers that a driver has taken on a trip
   passengers() {
-    let passengers = [];
-    store.trips.filter(
-      function(trip) {
-        if (trip.driverId === this.id)
-          passengers.push(trip.passenger);
-      }.bind(this)
-    );
-    return passengers;
+    let ps = [];
+    let trips = this.trips();
+    trips.forEach((e) => {
+      ps.push(e.passenger());
+    });
+    return ps;
   }
 }
 
@@ -51,17 +49,13 @@ class Passenger {
     );
   }
 
-  //returns all of the drivers that has taken a passenger on a trip
   drivers() {
-    drivers = [];
-    return store.trips.filter(
-      function() {
-        if (trip.passengerId === this.id) {
-          drivers.push(trip.drivers);
-        }
-        return drivers;
-      }.bind(this)
-    );
+    let ds = [];
+    let trips = this.trips();
+    trips.forEach((e) => {
+      ds.push(e.driver());
+    });
+    return ds;
   }
 }
 
