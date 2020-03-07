@@ -3,58 +3,72 @@ let store = { drivers: [], passengers: [], trips: []};
 let driverId = 0;
 
 class Driver {
+  //initialized with a name; returns a JavaScript object that has attributes of id, and name
   constructor(name) {
     this.id = ++driverId;
-    this.name = name
+    this.name = name;
     store.drivers.push(this);
   }
 
+  //returns all of the trips that a passenger has taken
   trips() {
     return store.trips.filter(
       function(trip) {
         return trip.driverId === this.id;
       }.bind(this)
-    )
+    );
   }
 
+  //returns all of the passengers that a driver has taken on a trip
   passengers() {
-    passengers = [];
-    return store.trips.filter(
-      function() {
-        if (trip.driverId === this.id) {
+    let passengers = [];
+    store.trips.filter(
+      function(trip) {
+        if (trip.driverId === this.id)
           passengers.push(trip.passenger);
-        }
-        return passengers;
       }.bind(this)
-    )
+    );
+    return passengers;
   }
 }
 
 let passengerId = 0;
 
 class Passenger {
+  //initialized with a name; returns a JavaScript object that has attributes of id, and name
   constructor(name) {
     this.id = ++passengerId;
-    this.name = name
+    this.name = name;
     store.passengers.push(this);
   }
 
-  // setDriver() {
-
-  // }
-
+  //returns all of the trips that a passenger has taken
   trips() {
-
+    return store.trips.filter(
+      function(trip) {
+        return trip.passengerId === this.id;
+      }.bind(this)
+    );
   }
 
+  //returns all of the drivers that has taken a passenger on a trip
   drivers() {
-
+    drivers = [];
+    return store.trips.filter(
+      function() {
+        if (trip.passengerId === this.id) {
+          drivers.push(trip.drivers);
+        }
+        return drivers;
+      }.bind(this)
+    );
   }
 }
 
 let Id = 0;
 
 class Trip {
+  // initialized with an instance of driver and an instance of passenger; returns a JavaScript that object has attributes id, driverId, and passengerId
   constructor(driver, passenger) {
     this.id = ++Id;
     this.driverId = driver.id;
@@ -62,10 +76,7 @@ class Trip {
     store.trips.push(this);
   }
 
-  // setDriver(driver) {
-  //   this.driverId = driver.id;
-  // }
-
+  //returns the driver associated with the trip
   driver() {
     return store.drivers.find(
       function(driver) {
@@ -74,6 +85,9 @@ class Trip {
     );
   }
 
+
+
+  //returns the passenger associated with the trip
   passenger() {
     return store.passengers.find(
       function(passenger) {
